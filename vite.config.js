@@ -5,6 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   // GitHub Pages serves this repo at /<repo-name>/, Vercel serves it at the domain root.
-  base: process.env.GITHUB_PAGES ? '/portfolio/' : '/',
+  base: process.env.GITHUB_PAGES ? '/yeemonoo/' : '/',
   plugins: [react(), tailwindcss()],
 })
