@@ -1,11 +1,11 @@
-import { projects } from '../data/portfolioData'
+import { profile, projects } from '../data/portfolioData'
 import ProjectVisual from './ProjectVisual'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 function TechTags({ tech }) {
   return (
-    <div className="mt-5 flex flex-wrap gap-2">
+    <div className="mt-4 flex flex-wrap gap-2">
       {tech.map((t) => (
         <span
           key={t}
@@ -18,137 +18,72 @@ function TechTags({ tech }) {
   )
 }
 
-function Highlights({ items }) {
-  if (!items?.length) return null
+function ProjectCard({ project, delay }) {
   return (
-    <ul className="mt-4 space-y-2">
-      {items.map((item) => (
-        <li key={item} className="flex gap-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <span className="text-accent-dim dark:text-accent" aria-hidden="true">
-            —
+    <Reveal delay={delay} className="h-full">
+      <a href={project.link} className="group flex h-full flex-col">
+        <ProjectVisual
+          project={project}
+          className="aspect-square w-full transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+        <div className="mt-5 flex-1">
+          <p className="font-mono text-xs text-neutral-400 dark:text-neutral-600">{project.year}</p>
+          <h3 className="mt-1.5 font-display text-lg font-semibold tracking-tight sm:text-xl">{project.name}</h3>
+          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{project.description}</p>
+          <TechTags tech={project.tech} />
+        </div>
+        <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs text-neutral-500 transition-colors duration-300 group-hover:text-accent-dim dark:text-neutral-500 dark:group-hover:text-accent">
+          View
+          <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+            →
           </span>
-          {item}
-        </li>
-      ))}
-    </ul>
+        </span>
+      </a>
+    </Reveal>
+  )
+}
+
+function SeeAllCard({ delay }) {
+  return (
+    <Reveal delay={delay} className="h-full">
+      <a
+        href={profile.social.github}
+        className="group flex aspect-square h-full flex-col justify-between border border-neutral-900/10 p-6 transition-all duration-500 hover:scale-[1.015] hover:border-accent-dim/40 dark:border-neutral-100/10 dark:hover:border-accent/40"
+      >
+        <span className="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
+          On GitHub
+        </span>
+        <span className="font-display text-lg font-semibold tracking-tight sm:text-xl">
+          See all projects{' '}
+          <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+        </span>
+      </a>
+    </Reveal>
   )
 }
 
 export default function Projects() {
-  const featured = projects.find((p) => p.variant === 'featured')
-  const split = projects.find((p) => p.variant === 'split')
-  const rail = projects.filter((p) => p.variant === 'rail')
-  const list = projects.filter((p) => p.variant === 'list')
+  const primary = projects.filter((p) => p.variant === 'primary')
+  const secondary = projects.filter((p) => p.variant === 'secondary')
 
   return (
-    <section id="projects" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
-      <SectionHeading
-        index="04"
-        title="Projects"
-        description="A handful of case studies — the rest live on GitHub."
-      />
+    <section id="projects" className="mx-auto max-w-6xl px-6 pb-24 pt-12 sm:px-10">
+      <SectionHeading title="Projects" description="A handful of case studies — the rest live on GitHub." />
 
-      {featured && (
-        <Reveal className="mb-20">
-          <a href={featured.link} className="group grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-            <ProjectVisual
-              index={featured.index}
-              className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-[1.02] lg:order-2"
-            />
-            <div className="lg:order-1">
-              <p className="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-                {featured.year} · {featured.role}
-              </p>
-              <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-                {featured.name}
-              </h3>
-              <p className="mt-4 max-w-md text-neutral-600 dark:text-neutral-400">{featured.description}</p>
-              <Highlights items={featured.highlights} />
-              <TechTags tech={featured.tech} />
-              <span className="mt-6 inline-flex items-center gap-2 font-mono text-sm">
-                View case study
-                <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
-                  →
-                </span>
-              </span>
-            </div>
-          </a>
-        </Reveal>
-      )}
-
-      {split && (
-        <Reveal className="mb-20 border-t border-neutral-900/10 pt-12 dark:border-neutral-100/10">
-          <a href={split.link} className="group grid gap-8 lg:grid-cols-2 lg:gap-12">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-                {split.year}
-                {split.role ? ` · ${split.role}` : ''}
-              </p>
-              <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl">{split.name}</h3>
-              <p className="mt-4 max-w-sm text-neutral-600 dark:text-neutral-400">{split.description}</p>
-              <Highlights items={split.highlights} />
-              <TechTags tech={split.tech} />
-            </div>
-            <ProjectVisual
-              index={split.index}
-              className="aspect-video w-full transition-transform duration-500 group-hover:scale-[1.02]"
-            />
-          </a>
-        </Reveal>
-      )}
-
-      {rail.length > 0 && (
-        <Reveal className="mb-20 border-t border-neutral-900/10 pt-12 dark:border-neutral-100/10">
-          <p className="mb-6 font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-            Scroll →
-          </p>
-          <div className="rail flex gap-6 overflow-x-auto pb-4">
-            {rail.map((project) => (
-              <a key={project.name} href={project.link} className="group w-[78vw] flex-none sm:w-[380px]">
-                <ProjectVisual
-                  index={project.index}
-                  className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-                <p className="mt-4 font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-                  {project.year}
-                </p>
-                <h3 className="mt-1 font-display text-xl font-semibold tracking-tight">{project.name}</h3>
-                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{project.description}</p>
-              </a>
-            ))}
-          </div>
-        </Reveal>
-      )}
-
-      {list.length > 0 && (
-        <div className="border-t border-neutral-900/10 dark:border-neutral-100/10">
-          {list.map((project, i) => (
-            <Reveal key={project.name} delay={i * 60}>
-              <a
-                href={project.link}
-                className="group flex items-center justify-between gap-6 border-b border-neutral-900/10 py-6 dark:border-neutral-100/10"
-              >
-                <div className="flex items-baseline gap-4 sm:gap-6">
-                  <span className="font-mono text-xs text-neutral-500 dark:text-neutral-500">{project.index}</span>
-                  <h3 className="font-display text-lg font-medium tracking-tight sm:text-xl">{project.name}</h3>
-                  <span className="hidden text-sm text-neutral-500 dark:text-neutral-500 sm:inline">
-                    {project.description}
-                  </span>
-                </div>
-                <div className="flex items-center gap-5">
-                  <span className="hidden font-mono text-xs text-neutral-500 dark:text-neutral-500 md:inline">
-                    {project.tech.join(' / ')}
-                  </span>
-                  <span
-                    className="transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent-dim dark:group-hover:text-accent"
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </Reveal>
+      {primary.length > 0 && (
+        <div className="grid gap-x-8 gap-y-14 sm:grid-cols-3">
+          {primary.map((project, i) => (
+            <ProjectCard key={project.name} project={project} delay={i * 80} />
           ))}
+        </div>
+      )}
+
+      {secondary.length > 0 && (
+        <div className="mt-16 grid gap-x-8 gap-y-14 border-t border-neutral-900/10 pt-16 sm:grid-cols-3 dark:border-neutral-100/10">
+          {secondary.map((project, i) => (
+            <ProjectCard key={project.name} project={project} delay={i * 80} />
+          ))}
+          <SeeAllCard delay={secondary.length * 80} />
         </div>
       )}
     </section>

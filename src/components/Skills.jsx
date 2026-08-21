@@ -12,7 +12,7 @@ const levelStyles = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+    <section id="skills" className="mx-auto max-w-6xl px-6 py-12 sm:px-10">
       <SectionHeading
         index="02"
         title="Skills"

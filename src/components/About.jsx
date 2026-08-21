@@ -20,7 +20,7 @@ function Metric({ end, suffix, label }) {
 
 export default function About() {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+    <section id="about" className="mx-auto max-w-6xl px-6 pb-12 pt-24 sm:px-10">
       <div className="grid gap-16 sm:grid-cols-12 sm:gap-8">
         <div className="sm:col-span-7">
           <Reveal>
@@ -62,7 +62,7 @@ export default function About() {
               {about.facts.map((fact) => (
                 <div key={fact.label} className="flex items-baseline gap-2 font-mono text-xs">
                   <dt className="uppercase tracking-widest text-neutral-400 dark:text-neutral-600">{fact.label}</dt>
-                  <dd className="text-neutral-700 dark:text-neutral-300">{fact.value}</dd>
+                  <dd className="font-medium text-accent-dim dark:text-accent">{fact.value}</dd>
                 </div>
               ))}
             </dl>

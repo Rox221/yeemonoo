@@ -15,8 +15,7 @@ export default function Contact() {
       <div className="relative mx-auto max-w-6xl px-6 py-24 sm:px-10 sm:py-32">
         <Reveal>
           <div className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-widest text-bone/50">
-            <span className="text-accent">(05)</span>
-            <span>Contact</span>
+            <span className="text-accent">Contact</span>
           </div>
           <div className="mt-3 h-px w-full bg-bone/10" />
         </Reveal>
