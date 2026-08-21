@@ -9,7 +9,7 @@ function TechTags({ tech }) {
       {tech.map((t) => (
         <span
           key={t}
-          className="border border-neutral-900/10 px-2.5 py-1 font-mono text-xs text-neutral-500 dark:border-neutral-100/10 dark:text-neutral-400"
+          className="border border-neutral-900/10 px-2.5 py-1 font-mono text-xs text-neutral-500 transition-colors duration-300 hover:border-accent-dim/50 dark:border-neutral-100/10 dark:text-neutral-400 dark:hover:border-accent/50"
         >
           {t}
         </span>
@@ -22,17 +22,22 @@ function ProjectCard({ project, delay }) {
   return (
     <Reveal delay={delay} className="h-full">
       <a href={project.link} className="group flex h-full flex-col">
-        <ProjectVisual
-          project={project}
-          className="aspect-square w-full transition-transform duration-500 group-hover:scale-[1.015]"
-        />
+        <div className="-rotate-1 border border-neutral-900/10 bg-paper shadow-[6px_6px_0_0_rgba(19,18,16,0.08)] transition-all duration-500 ease-out group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:rotate-0 group-hover:shadow-[10px_10px_0_0_var(--color-accent-dim)] dark:border-neutral-100/10 dark:bg-ink dark:shadow-[6px_6px_0_0_rgba(242,240,232,0.06)] dark:group-hover:shadow-[10px_10px_0_0_var(--color-accent)]">
+          <ProjectVisual project={project} className="aspect-[4/3] w-full" />
+        </div>
+
         <div className="mt-5 flex-1">
-          <p className="font-mono text-xs text-neutral-400 dark:text-neutral-600">{project.year}</p>
-          <h3 className="mt-1.5 font-display text-lg font-semibold tracking-tight sm:text-xl">{project.name}</h3>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-accent-dim dark:text-accent">
+            {project.tag} · {project.year}
+          </p>
+          <h3 className="mt-2 font-display text-lg font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent-dim sm:text-xl dark:group-hover:text-accent">
+            {project.name}
+          </h3>
           <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{project.description}</p>
           <TechTags tech={project.tech} />
         </div>
-        <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs text-neutral-500 transition-colors duration-300 group-hover:text-accent-dim dark:text-neutral-500 dark:group-hover:text-accent">
+
+        <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-500 transition-colors duration-300 group-hover:text-accent-dim dark:text-neutral-500 dark:group-hover:text-accent">
           View
           <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
             →
@@ -43,19 +48,16 @@ function ProjectCard({ project, delay }) {
   )
 }
 
-function SeeAllCard({ delay }) {
+function GithubCta({ delay }) {
   return (
-    <Reveal delay={delay} className="h-full">
+    <Reveal delay={delay} className="flex h-full items-center justify-center sm:-translate-y-24">
       <a
         href={profile.social.github}
-        className="group flex aspect-square h-full flex-col justify-between border border-neutral-900/10 p-6 transition-all duration-500 hover:scale-[1.015] hover:border-accent-dim/40 dark:border-neutral-100/10 dark:hover:border-accent/40"
+        className="group relative inline-flex items-center gap-3 border-2 border-ink bg-paper px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-ink shadow-[5px_5px_0_0_var(--color-accent-dim)] transition-all duration-300 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[9px_9px_0_0_var(--color-accent-dim)] active:translate-x-0 active:translate-y-0 active:shadow-[2px_2px_0_0_var(--color-accent-dim)] dark:border-bone dark:bg-ink dark:text-bone dark:shadow-[5px_5px_0_0_var(--color-accent)] dark:hover:shadow-[9px_9px_0_0_var(--color-accent)] dark:active:shadow-[2px_2px_0_0_var(--color-accent)]"
       >
-        <span className="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-          On GitHub
-        </span>
-        <span className="font-display text-lg font-semibold tracking-tight sm:text-xl">
-          See all projects{' '}
-          <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+        See the rest on GitHub
+        <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true">
+          →
         </span>
       </a>
     </Reveal>
@@ -63,12 +65,12 @@ function SeeAllCard({ delay }) {
 }
 
 export default function Projects() {
-  const primary = projects.filter((p) => p.variant === 'primary')
-  const secondary = projects.filter((p) => p.variant === 'secondary')
+  const primary = projects.slice(0, 3)
+  const secondary = projects.slice(3, 5)
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 pb-24 pt-12 sm:px-10">
-      <SectionHeading title="Projects" description="A handful of case studies — the rest live on GitHub." />
+      <SectionHeading title="Projects" description="Projects I've built, explored, and learned from." />
 
       {primary.length > 0 && (
         <div className="grid gap-x-8 gap-y-14 sm:grid-cols-3">
@@ -83,7 +85,7 @@ export default function Projects() {
           {secondary.map((project, i) => (
             <ProjectCard key={project.name} project={project} delay={i * 80} />
           ))}
-          <SeeAllCard delay={secondary.length * 80} />
+          <GithubCta delay={secondary.length * 80} />
         </div>
       )}
     </section>
