@@ -1,8 +1,8 @@
-import { skills } from '../data/portfolioData'
-
-const items = skills.flatMap((group) => group.items.filter((i) => i.level >= 4).map((i) => i.name))
+import { useLanguage } from '../context/LanguageContext'
 
 export default function TechMarquee() {
+  const { skills } = useLanguage()
+  const items = skills.flatMap((group) => group.items.filter((i) => i.level >= 4).map((i) => i.name))
   const track = [...items, ...items]
 
   return (

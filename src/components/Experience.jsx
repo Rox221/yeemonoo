@@ -1,15 +1,15 @@
-import { experience } from '../data/portfolioData'
+import { useLanguage } from '../context/LanguageContext'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 const TAG_TILT = ['-rotate-2', 'rotate-1', '-rotate-1', 'rotate-2', '-rotate-[1.5deg]']
 
 export default function Experience() {
+  const { experience, ui } = useLanguage()
+
   return (
     <section id="experience" className="mx-auto max-w-6xl px-6 py-12 sm:px-10">
-      <SectionHeading
-        title="Experience"
-      />
+      <SectionHeading title={ui.sections.experience.title} />
 
       <div className="relative">
         <div

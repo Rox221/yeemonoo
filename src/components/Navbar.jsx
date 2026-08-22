@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import ThemeToggle from './ThemeToggle'
-import { profile } from '../data/portfolioData'
-
-const links = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
-]
+import LanguageToggle from './LanguageToggle'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Navbar({ theme, toggleTheme }) {
+  const { profile, ui } = useLanguage()
+  const links = [
+    { href: '#about', label: ui.nav.about },
+    { href: '#skills', label: ui.nav.skills },
+    { href: '#experience', label: ui.nav.experience },
+    { href: '#projects', label: ui.nav.projects },
+    { href: '#contact', label: ui.nav.contact },
+  ]
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -53,14 +54,16 @@ export default function Navbar({ theme, toggleTheme }) {
             </span>
             {profile.availability}
           </span>
+          <LanguageToggle />
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
+          <LanguageToggle />
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <button
             type="button"
-            aria-label="Toggle menu"
+            aria-label={ui.toggleMenu}
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
             className="inline-flex h-9 w-9 items-center justify-center border border-neutral-900/15 dark:border-neutral-100/15"

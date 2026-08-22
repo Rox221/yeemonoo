@@ -1,11 +1,14 @@
+import { useLanguage } from '../context/LanguageContext'
+
 export default function ThemeToggle({ theme, toggleTheme }) {
+  const { ui } = useLanguage()
   const isDark = theme === 'dark'
 
   return (
     <button
       type="button"
       onClick={toggleTheme}
-      aria-label="Toggle color theme"
+      aria-label={ui.themeToggle}
       aria-pressed={isDark}
       className="group inline-flex h-9 w-9 items-center justify-center border border-neutral-900/15 text-neutral-600 transition-colors hover:border-accent-dim hover:text-neutral-900 dark:border-neutral-100/15 dark:text-neutral-300 dark:hover:border-accent dark:hover:text-neutral-100"
     >

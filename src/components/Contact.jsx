@@ -1,13 +1,15 @@
-import { profile } from '../data/portfolioData'
+import { useLanguage } from '../context/LanguageContext'
 import Reveal from './Reveal'
 import { GitHubIcon, LinkedInIcon } from './SocialIcons'
 
-const links = [
-  { label: 'GitHub', href: profile.social.github, Icon: GitHubIcon },
-  { label: 'LinkedIn', href: profile.social.linkedin, Icon: LinkedInIcon },
-]
-
 export default function Contact() {
+  const { profile, ui } = useLanguage()
+  const contactUi = ui.sections.contact
+  const links = [
+    { label: contactUi.github, href: profile.social.github, Icon: GitHubIcon },
+    { label: contactUi.linkedin, href: profile.social.linkedin, Icon: LinkedInIcon },
+  ]
+
   return (
     <section id="contact" className="relative overflow-hidden bg-ink text-bone">
       <div className="bg-grid pointer-events-none absolute inset-0 text-bone/[0.05]" aria-hidden="true" />
@@ -15,20 +17,21 @@ export default function Contact() {
       <div className="relative mx-auto max-w-6xl px-6 py-24 sm:px-10 sm:py-32">
         <Reveal>
           <div className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-widest text-bone/50">
-            <span className="text-accent">Contact</span>
+            <span className="text-accent">{contactUi.eyebrow}</span>
           </div>
           <div className="mt-3 h-px w-full bg-bone/10" />
         </Reveal>
 
         <Reveal delay={80}>
           <h2 className="mt-12 max-w-2xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
-            Let&rsquo;s build something worth shipping.
+            {contactUi.heading}
           </h2>
         </Reveal>
 
         <Reveal delay={160}>
           <p className="mt-6 max-w-md text-bone/60">
-            {profile.availability} — reach out directly, or find me on GitHub and LinkedIn.
+            {profile.availability}
+            {contactUi.availabilitySuffix}
           </p>
         </Reveal>
 

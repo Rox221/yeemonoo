@@ -1,6 +1,13 @@
-import { about } from '../data/portfolioData'
+import ucsyLogo from '../assets/ucsy-logo.png'
+import { useLanguage } from '../context/LanguageContext'
 import { useCountUp } from '../hooks/useCountUp'
 import Reveal from './Reveal'
+import { GlobeIcon, MapPinIcon } from './SocialIcons'
+
+const FACT_ICONS = {
+  location: MapPinIcon,
+  languages: GlobeIcon,
+}
 
 function Metric({ end, suffix, label }) {
   const { ref, value } = useCountUp(end)
@@ -19,6 +26,8 @@ function Metric({ end, suffix, label }) {
 }
 
 export default function About() {
+  const { about } = useLanguage()
+
   return (
     <section id="about" className="mx-auto max-w-6xl px-6 pb-12 pt-24 sm:px-10">
       <div className="grid gap-16 sm:grid-cols-12 sm:gap-8">
@@ -27,11 +36,13 @@ export default function About() {
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-accent-dim dark:bg-accent" aria-hidden="true" />
               <span className="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
-                Who I am
+                {about.eyebrow}
               </span>
             </div>
             <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl">
-              About <span className="text-accent-dim dark:text-accent">me</span>.
+              {about.heading.before}
+              <span className="text-accent-dim dark:text-accent">{about.heading.accent}</span>
+              {about.heading.after}
             </h2>
           </Reveal>
 
@@ -58,18 +69,38 @@ export default function About() {
           </Reveal>
 
           <Reveal delay={280}>
-            <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-              {about.facts.map((fact) => (
-                <div key={fact.label} className="flex items-baseline gap-2 font-mono text-xs">
-                  <dt className="uppercase tracking-widest text-neutral-400 dark:text-neutral-600">{fact.label}</dt>
-                  <dd className="font-medium text-accent-dim dark:text-accent">{fact.value}</dd>
-                </div>
-              ))}
+            <dl className="mt-4 flex flex-col gap-5">
+              {about.facts.map((fact) => {
+                const Icon = FACT_ICONS[fact.key]
+
+                return (
+                  <div key={fact.key} className="group flex items-center gap-4">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5">
+                      {fact.key === 'education' ? (
+                        <img src={ucsyLogo} alt="UCSY logo" className="h-9 w-9 object-contain" />
+                      ) : (
+                        <Icon
+                          strokeWidth={1.5}
+                          className="h-7 w-7 text-accent-dim dark:text-accent"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <dt className="font-mono text-[11px] uppercase tracking-widest text-neutral-500 dark:text-neutral-500">
+                        {fact.label}
+                      </dt>
+                      <dd className="mt-0.5 font-mono text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  </div>
+                )
+              })}
             </dl>
           </Reveal>
         </div>
 
-        <Reveal delay={140} className="sm:col-span-5">
+        <Reveal delay={140} className="sm:col-span-5 sm:mt-24 sm:ml-10">
           <div className="relative pl-8">
             <div
               className="grow-line absolute bottom-1 left-[3px] top-1 w-px bg-gradient-to-b from-accent-dim via-neutral-900/15 to-transparent dark:from-accent dark:via-neutral-100/15"
